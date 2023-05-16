@@ -1,0 +1,28 @@
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-color: #F1F6F9;
+  --compo-color: #394867;
+  --compo-bg-color: #212A3E;
+  --text-color: #9BA4B5;
+}
+
+[data-theme='dark'] {
+  --bg-color: #000;
+  --compo-color: #B8621B;
+  --compo-bg-color: #262A56;
+  --text-color: #E3CCAE;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+}
