@@ -4,7 +4,7 @@
 		<div class="flex justify-center space-x-2">
 			<a
 				class="btn variant-filled"
-				href="/pad/1"
+				href="/pad/new"
 			>
 				粘点东西
 			</a>
