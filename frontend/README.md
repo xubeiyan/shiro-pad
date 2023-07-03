@@ -8,3 +8,29 @@ Shiro来自于《玉响未来》的女主小伯白(Kohaku Shiro)，也是“白�
 
 ## 使用方法
 
+* 克隆本仓库的`master`分支至`shiro-pad`文件夹，并进入`frontend`文件夹
+
+```bash
+git clone --depth=1 https://github.com/xubeiyan/shiro-pad 
+cd shiro-pad/frontend
+```
+
+* 从`.env.example`复制，新建`.env.production`文件，并进行编辑，调整端口和数据库地址
+
+```bash
+cp .env.example .env.production
+vim .env.production
+```
+
+* 进行生产环境安装和打包，这里使用的包管理器为`pnpm`，其余类似
+
+```bash
+pnpm i --prod
+pnpm run build
+```
+
+* 上述命令会生成`bulid`文件夹，进入该文件夹，执行
+
+```bash
+node index.js
+```
