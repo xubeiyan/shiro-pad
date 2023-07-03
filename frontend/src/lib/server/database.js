@@ -4,6 +4,8 @@ import { DATABASE_PATH } from '$env/static/private';
 
 import { timeAfter } from './timeLib';
 
+// console.log(`DB:${DATABASE_PATH}`);
+
 const db = new Database(DATABASE_PATH, {
   fileMustExist: true,
   verbose: console.log,
