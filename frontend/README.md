@@ -15,7 +15,7 @@ git clone --depth=1 https://github.com/xubeiyan/shiro-pad
 cd shiro-pad/frontend
 ```
 
-* 从`.env.example`复制，新建`.env.production`文件，并进行编辑，调整端口和数据库地址
+* 从`.env.example`复制，新建`.env.production`文件，并进行编辑，调整数据库地址
 
 ```bash
 cp .env.example .env.production
@@ -23,10 +23,16 @@ vim .env.production
 ```
 
 * 进行生产环境安装和打包，这里使用的包管理器为`pnpm`，其余类似
+  > 默认端口为`3000`, 如需改变可在打包时指定`PORT=9000`
 
 ```bash
 pnpm i --prod
-pnpm run build
+
+# linux shell
+PORT=9000 pnpm run build
+
+# or windows cmd
+SET PORT=9000; pnpm run build
 ```
 
 * 上述命令会生成`bulid`文件夹，进入该文件夹，执行
