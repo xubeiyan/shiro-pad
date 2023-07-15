@@ -73,14 +73,14 @@ node index.js
 	node build/index.js
 	```
 	
-2. 如果部署的位置复制大量文件不便，可以不复制`node_modules`，
+2. 如果部署的位置复制大量文件不便，可以不复制`node_modules`，改由从`pnpm install`命令生成
 	
 	* 用`build`文件夹，`package.json`, `pnpm-lock.yaml`和`db`文件夹，打包生成`dist.tar`
 	
 		> 假设当前工作目录为`shiro-pad/shiro-pad-svelte`
 		
 	```bash
-	tar -cf dist.tar build/ package.json pnpm-lock.yaml
+	tar -cf dist.tar build/ db/ package.json pnpm-lock.yaml
 	```
 	
 	* 复制生成的`dist.tar`至目标目录
