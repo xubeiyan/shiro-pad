@@ -22,8 +22,8 @@
 	}
 </script>
 
-<div class="flex h-full max-h-full p-2 gap-2">
-	<form class="card w-1/2 p-2" method="POST" action="?/update">
+<div class="sm:flex sm:h-full sm:max-h-full p-2 sm:gap-2">
+	<form class="card sm:w-1/2 p-2 w-full" method="POST" action="?/update">
 		<a href="/" class="btn btn-sm variant-filled-surface">
 			<span><BackIcon /></span>
 			返回
@@ -59,7 +59,7 @@
 			<textarea
 				name="code"
 				required
-				class="w-full flex-grow dark:bg-slate-600 dark:placeholder-gray-300 font-mono p-2 rounded-md"
+				class="w-full h-72 flex-grow dark:bg-slate-600 dark:placeholder-gray-300 font-mono p-2 rounded-md"
 				placeholder="粘贴代码至这里..."
 				bind:value={code}
 			/>
@@ -88,7 +88,7 @@
 		</div>
 	</form>
 
-	<div class="card w-1/2 h-full p-2">
+	<div class="card w-full sm:w-1/2 h-1/2 sm:h-full p-2">
 		<CodeBlock class="w-full h-full" {language} buttonLabel="复制" code={`${code}`} />
 	</div>
 </div>
