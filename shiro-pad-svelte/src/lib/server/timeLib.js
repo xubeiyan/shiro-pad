@@ -3,7 +3,7 @@ const timeAfter = ({ startTime, period }) => {
   const startMilliSecond = new Date(startTime).getTime();
 
   const periodToMilliSecondArray = {
-    '0s': 0,
+    'burnAfterRead': 0,
     '5m': 5 * 60 * 1000,
     '30m': 30 * 60 * 1000,
     '1h': 1 * 60 * 60 * 1000,

@@ -1,6 +1,5 @@
 <script>
 	import { CodeBlock } from '@skeletonlabs/skeleton';
-	import { clipboard } from '@skeletonlabs/skeleton';
 
 	import { page } from '$app/stores';
 
@@ -14,12 +13,28 @@
 
 	export let data;
 	// 语言，代码，保留时间
-	let { language, code, keepTime, expireAt } = data;
+	let { ulid, language, code, keepTime, expireAt } = data;
 
 	if ($page.url.pathname == '/pad/1') {
 		code = '<div>This is meta</div>';
 		onlyView = true;
 	}
+
+	// 复制url
+	const copyUrl = async () => {
+		const origin = window.location.origin;
+		let url = `${origin}/viewPad/${ulid}`;
+		if (ulid == undefined) {
+			url = `${origin}/pad/1`;
+		}
+
+		try {
+			await navigator.clipboard.writeText(url);
+			copied = true;
+		} catch (err) {
+			console.log('unable to copy');
+		}
+	};
 </script>
 
 <div class="sm:flex sm:h-full sm:max-h-full p-2 sm:gap-2">
@@ -65,20 +80,18 @@
 			/>
 		</label>
 		<div class="my-4 flex justify-end items-center gap-2">
-			{#if expireAt != ''}
+			{#if keepTime == 'burnAfterRead'}
+				<span>注意本pad为阅后即焚！</span>
+			{:else if expireAt != ''}
 				<span>有效至: {expireAt}</span>
 			{/if}
+
 			{#if !onlyView}
-				<button type="submit" class="btn btn-sm variant-filled-primary">
+				<button type="submit" class="btn btn-sm variant-filled-primary" disabled={code == ''}>
 					<span><SaveIcon /></span>保存
 				</button>
 			{/if}
-			<button
-				type="button"
-				class="btn btn-sm variant-filled-secondary"
-				use:clipboard={window.location.href}
-				on:click={() => (copied = true)}
-			>
+			<button type="button" class="btn btn-sm variant-filled-secondary" disabled={ulid == undefined} on:click={() => copyUrl()}>
 				{#if copied}
 					<span><CopiedIcon /></span>已复制
 				{:else}

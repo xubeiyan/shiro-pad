@@ -7,15 +7,20 @@ export const actions = {
     const id = data.get('id');
     const ulid = id.substring(5);
     const language = data.get('language');
-    const keepTime = data.get('keepTime');
+    let keepTime = data.get('keepTime');
+
+    if (keepTime == '0s') {
+      keepTime = 'burnAfterRead';
+    }
+
     const code = data.get('code');
 
-    updatePad({ulid, language, code, keepTime});
+    updatePad({ ulid, language, code, keepTime });
   },
 }
 
 export const load = async ({ params }) => {
-  let res = await getPad({ ulid: params.padId});
+  let res = await getPad({ ulid: params.padId });
 
   // 没有和过期都删除
   if (res == null || res == 'expired') {
@@ -27,6 +32,7 @@ export const load = async ({ params }) => {
     }
   } else {
     return {
+      ulid: res.ulid,
       language: res.language,
       keepTime: res.keepTime,
       code: res.codeText,
