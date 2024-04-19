@@ -12,7 +12,7 @@ const db = new Database(DATABASE_PATH, {
 });
 
 // 获取指定ulid的pad 
-const getPad = async ({ ulid }) => {
+const getPad = async ({ ulid, isUpdate }) => {
   const stmt = db.prepare(`
     SELECT ulid, language, keepTime, codeText, expireAt, expired FROM pad WHERE ulid = ?
   `).bind([ulid]);
@@ -27,17 +27,15 @@ const getPad = async ({ ulid }) => {
 
   // 判断keepTime是否是burnAfterRead
   if (result.keepTime == 'burnAfterRead') {
-    if (result.expired == 1) {
-      return 'expired';
-    } else {
-      // 将expired置为1，返回这个
-      const updateStmt = db.prepare(`
-        UPDATE 'pad' SET expired = 1 where ulid = ?  
+    // 没有isUpdate则表明是查看了这个pad，删除这条
+    if (!isUpdate) {
+      const deleteStmt = db.prepare(`
+      DELETE FROM pad WHERE ulid = ?  
       `).bind([ulid]);
-      updateStmt.run();
-
-      return result;
+      deleteStmt.run();
     }
+
+    return result;
 
   }
 

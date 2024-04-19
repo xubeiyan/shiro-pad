@@ -19,8 +19,11 @@ export const actions = {
   },
 }
 
-export const load = async ({ params }) => {
-  let res = await getPad({ ulid: params.padId });
+export const load = async ({ params, url }) => {
+  const updateParam = url.searchParams.get('/update');
+  // console.log(`updateParam: ${updateParam}`);
+  const isUpdate = updateParam !== null;
+  let res = await getPad({ ulid: params.padId, isUpdate });
 
   // 没有和过期都删除
   if (res == null || res == 'expired') {
