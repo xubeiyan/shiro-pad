@@ -4,11 +4,16 @@ import { DATABASE_PATH } from '$env/static/private';
 
 import { timeAfter } from './timeLib';
 
-// console.log(`DB:${DATABASE_PATH}`);
+// 判断是否开发 dev
+import { dev } from '$app/environment';
+
+const log = (logContent) => {
+  if (dev) console.log(logContent);
+}
 
 const db = new Database(DATABASE_PATH, {
   fileMustExist: true,
-  verbose: console.log,
+  verbose: dev ? console.log : null,
 });
 
 // 获取指定ulid的pad 
@@ -21,7 +26,7 @@ const getPad = async ({ ulid, isUpdate }) => {
 
   // 没有则返回NULL
   if (result == undefined) {
-    console.log('没有找到，新建')
+    log('没有找到，新建');
     return null;
   }
 
@@ -42,7 +47,7 @@ const getPad = async ({ ulid, isUpdate }) => {
   // 检查是否过期，过期则删除
   let expireTimeStamp = new Date(result.expireAt).getTime();
   if (expireTimeStamp < new Date().getTime()) {
-    console.log('已过期，新建');
+    log('已过期，新建');
     const deleteStmt = db.prepare(`
       DELETE FROM pad WHERE ulid = ?
     `).bind([ulid]);
@@ -63,6 +68,7 @@ const previewPad = async ({ ulid }) => {
 
   // 没有找到
   if (result == undefined) {
+    log('没有找到');
     return 'notFound';
   }
 

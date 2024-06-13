@@ -28,7 +28,7 @@ export const load = async ({ params, url }) => {
   // 没有和过期都删除
   if (res == null || res == 'expired') {
     return {
-      language: 'html',
+      language: 'plaintext',
       keepTime: '1h',
       code: '',
       expireAt: '',
