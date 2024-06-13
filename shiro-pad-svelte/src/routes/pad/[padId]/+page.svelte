@@ -3,10 +3,10 @@
 
 	import { page } from '$app/stores';
 
-	import BackIcon from '../../../assets/icons/back.svelte';
-	import CopyIcon from '../../../assets/icons/copy.svelte';
-	import CopiedIcon from '../../../assets/icons/check.svelte';
-	import SaveIcon from '../../../assets/icons/save.svelte';
+	import BackIcon from '$icons/back.svelte';
+	import CopyIcon from '$icons/copy.svelte';
+	import CopiedIcon from '$icons/check.svelte';
+	import SaveIcon from '$icons/save.svelte';
 
 	let copied = false;
 	let onlyView = false;
@@ -14,9 +14,11 @@
 	export let data;
 	// 语言，代码，保留时间
 	let { ulid, language, code, keepTime, expireAt } = data;
-
+	
+	// 如果url是/pad/1则开启onlyView
 	if ($page.url.pathname == '/pad/1') {
 		code = '<div>This is meta</div>';
+		language = 'html';
 		onlyView = true;
 	}
 
@@ -48,12 +50,19 @@
 			<label class="label w-1/2">
 				<span>语言</span>
 				<select name="language" class="select" bind:value={language}>
-					<option value="javascript">JavaScript</option>
-					<option value="html">HTML</option>
-					<option value="css">CSS</option>
-					<option value="java">Java</option>
-					<option value="markdown">MarkDown</option>
 					<option value="bash">Bash</option>
+					<option value="c">C</option>
+					<option value="cpp">C++</option>
+					<option value="css">CSS</option>
+					<option value="html">HTML</option>
+					<option value="golang">Go</option>
+					<option value="java">Java</option>
+					<option value="javascript">JavaScript</option>
+					<option value="markdown">MarkDown</option>
+					<option value="tex">LaTeX</option>
+					<option value="typescript">TypeScript</option>
+					<option value="yml">YAML</option>
+					<option value="plaintext">纯文本</option>
 				</select>
 			</label>
 			<label class="label w-1/2">
@@ -102,6 +111,6 @@
 	</form>
 
 	<div class="card w-full sm:w-1/2 h-1/2 sm:h-full p-2">
-		<CodeBlock class="w-full h-full" {language} buttonLabel="复制" code={`${code}`} />
+		<CodeBlock class="w-full h-full" {language} lineNumbers={true} buttonLabel="复制" code={`${code}`} />
 	</div>
 </div>

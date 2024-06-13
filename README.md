@@ -13,6 +13,10 @@ casue almost pastebin websites like `pastebin.ubuntu.com`, `pastebin.com` and `g
 
 For use, please refer to `README.md` in `shiro-pad-svelte` folder
 
+## 搭建实例
+
+一个自用版本 -> [https://shiropad.mea.moe/](https://shiropad.mea.moe/)
+
 
 
 
