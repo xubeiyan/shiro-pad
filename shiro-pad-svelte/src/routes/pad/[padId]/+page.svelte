@@ -14,7 +14,7 @@
 	export let data;
 	// 语言，代码，保留时间
 	let { ulid, language, code, keepTime, expireAt } = data;
-	
+
 	// 如果url是/pad/1则开启onlyView
 	if ($page.url.pathname == '/pad/1') {
 		code = '<div>This is meta</div>';
@@ -37,6 +37,48 @@
 			console.log('unable to copy');
 		}
 	};
+
+	// highlight.js 分别导入对应的语言减少打包大小
+	import hljs from 'highlight.js/lib/core';
+
+	// Import each language module you require
+	import bash from 'highlight.js/lib/languages/bash'; 
+	import c from 'highlight.js/lib/languages/c'; 
+	import cpp from 'highlight.js/lib/languages/cpp'; 
+	import java from 'highlight.js/lib/languages/java'; 
+	import markdown from 'highlight.js/lib/languages/markdown'; 
+	import go from 'highlight.js/lib/languages/go'; 
+	import xml from 'highlight.js/lib/languages/xml'; // for HTML
+	import yml from 'highlight.js/lib/languages/yaml'; 
+	import latex from 'highlight.js/lib/languages/latex'; 
+	import css from 'highlight.js/lib/languages/css';
+	import json from 'highlight.js/lib/languages/json';
+	import javascript from 'highlight.js/lib/languages/javascript';
+	import typescript from 'highlight.js/lib/languages/typescript';
+	import plaintext from 'highlight.js/lib/languages/plaintext'
+
+
+	// Register each imported language module
+	hljs.registerLanguage('bash', bash);
+	hljs.registerLanguage('c', c);
+	hljs.registerLanguage('cpp', cpp);
+	hljs.registerLanguage('css', css);
+	hljs.registerLanguage('go', go);
+	hljs.registerLanguage('java', java);
+	hljs.registerLanguage('markdown', markdown);
+	hljs.registerLanguage('xml', xml); // for HTML
+	hljs.registerLanguage('json', json);
+	hljs.registerLanguage('javascript', javascript);
+	hljs.registerLanguage('typescript', typescript);
+	hljs.registerLanguage('latex', latex);
+	hljs.registerLanguage('yml', yml);
+	hljs.registerLanguage('plaintext', plaintext);
+
+	import 'highlight.js/styles/github-dark.css';
+
+	import { storeHighlightJs } from '@skeletonlabs/skeleton';
+
+	storeHighlightJs.set(hljs);
 </script>
 
 <div class="sm:flex sm:h-full sm:max-h-full p-2 sm:gap-2">
@@ -58,6 +100,7 @@
 					<option value="golang">Go</option>
 					<option value="java">Java</option>
 					<option value="javascript">JavaScript</option>
+					<option value="json">JSON</option>
 					<option value="markdown">MarkDown</option>
 					<option value="tex">LaTeX</option>
 					<option value="typescript">TypeScript</option>
@@ -100,7 +143,12 @@
 					<span><SaveIcon /></span>保存
 				</button>
 			{/if}
-			<button type="button" class="btn btn-sm variant-filled-secondary" disabled={ulid == undefined} on:click={() => copyUrl()}>
+			<button
+				type="button"
+				class="btn btn-sm variant-filled-secondary"
+				disabled={ulid == undefined}
+				on:click={() => copyUrl()}
+			>
 				{#if copied}
 					<span><CopiedIcon /></span>已复制
 				{:else}
@@ -111,6 +159,12 @@
 	</form>
 
 	<div class="card w-full sm:w-1/2 h-1/2 sm:h-full p-2">
-		<CodeBlock class="w-full h-full" {language} lineNumbers={true} buttonLabel="复制" code={`${code}`} />
+		<CodeBlock
+			class="w-full h-full"
+			{language}
+			lineNumbers={true}
+			buttonLabel="复制"
+			code={`${code}`}
+		/>
 	</div>
 </div>
