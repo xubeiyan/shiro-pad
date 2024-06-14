@@ -33,16 +33,18 @@ sqlite3 ./db/prod.db < ./db/create_db.sql
 
 * 进行生产环境安装和打包，这里使用的包管理器为`pnpm`，其余类似
 
-  > 默认端口为`3000`, 如需改变可在打包时指定`PORT=9000`
+  > 默认端口为 `3000`, 如需改变可在打包时指定 `PORT=9000`
+  > SvelteKit 的 `adapter-node` 要求打包时填写域名的地址，不然会在提交表单时报 `Cross-site POST form submissions are forbidden` 的错误，具体方式为添加 `ORIGIN=https://shiropad.mea.moe` (后面这个地址更换为你部署网站的地址)
+  > 参见 https://kit.svelte.dev/docs/adapter-node#environment-variables-origin-protocolheader-hostheader-and-port-header
 
 ```bash
 pnpm i
 
 # linux shell
-PORT=9000 pnpm run build
+ORIGIN=https://shiropad.mea.moe PORT=9000 pnpm run build
 
 # or windows cmd
-SET PORT=9000; pnpm run build
+SET PORT=9000; SET ORIGIN=https://shiropad.mea.moe; pnpm run build
 ```
 
 * 上述命令会生成`bulid`文件夹，进入该文件夹，执行
