@@ -10,3 +10,5 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 /db
+# rollup-plugin-visualizer 生成的打包后大小图
+/stats.html

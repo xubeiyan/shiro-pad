@@ -8,12 +8,6 @@
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 	import ColorSwitch from '../components/ColorSwitch.svelte';
 
-	import hljs from 'highlight.js';
-	import 'highlight.js/styles/github-dark.css';
-	import { storeHighlightJs } from '@skeletonlabs/skeleton';
-
-	storeHighlightJs.set(hljs);
-
 	let appName = 'Shiro Pad';
 </script>
 

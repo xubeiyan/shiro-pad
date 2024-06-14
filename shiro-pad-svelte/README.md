@@ -33,25 +33,23 @@ sqlite3 ./db/prod.db < ./db/create_db.sql
 
 * 进行生产环境安装和打包，这里使用的包管理器为`pnpm`，其余类似
 
-  > 默认端口为`3000`, 如需改变可在打包时指定`PORT=9000`
-
 ```bash
 pnpm i
 
 # linux shell
-PORT=9000 pnpm run build
+pnpm run build
 
 # or windows cmd
-SET PORT=9000; pnpm run build
+pnpm run build
 ```
 
-* 上述命令会生成`bulid`文件夹，进入该文件夹，执行
+* 上述命令会生成`bulid`文件夹，执行
 
 ```bash
-node index.js
+node build/index.js
 ```
 
-* 浏览器访问`http://yourip:yourport/`即可看到
+* 浏览器访问`http://yourip:yourport/`即可看到（实际使用还需参考下面的部署方法）
 
 ## 部署方法
 
@@ -63,15 +61,26 @@ node index.js
 
 		> 假设当前工作目录为`shiro-pad/shiro-pad-svelte`
 
-	```bash
-	cp -r build/ package.json db/ node_modules/ /opt/shiro-pad
-	```
+		```bash
+		cp -r build/ package.json db/ node_modules/ /opt/shiro-pad
+		```
 
 	* 启动项目，可以使用例如`pm2`和`forever`之类的进程管理，方便进行持续集成
-	
-	```bash
-	node build/index.js
-	```
+
+		> 默认端口为 `3000`, 可在启动时指定环境变量 `PORT=9000` 修改至 `9000` 端口
+
+		> 而 SvelteKit 的 `adapter-node` 要求需要 `ORIGIN` 参数，以避免 `Cross-site POST form submissions are forbidden` 的错误
+
+		> 参见 https://kit.svelte.dev/docs/adapter-node#environment-variables-origin-protocolheader-hostheader-and-port-header
+
+		> 下面的例子中是用的https://shiropad.mea.moe
+
+
+		```bash
+		ORIGIN=https://shiropad.mea.moe \
+		NODE_ENV=production \
+		node build/index.js
+		```
 	
 2. 如果部署的位置复制大量文件不便，可以不复制`node_modules`，改由从`pnpm install`命令生成
 	
@@ -79,34 +88,57 @@ node index.js
 	
 		> 假设当前工作目录为`shiro-pad/shiro-pad-svelte`
 		
-	```bash
-	tar -cf dist.tar build/ db/ package.json pnpm-lock.yaml
-	```
+		```bash
+		tar -cf dist.tar build/ db/ package.json pnpm-lock.yaml
+		```
 	
 	* 复制生成的`dist.tar`至目标目录
 	* 假设`dist.tar`已经复制到`/opt/shiro-pad`，进行解包
 	
 		> 假设当前工作目录为`/opt/shiro-pad`
 		
-	```bash
-	tar -xf dist.tar
-	```
+		```bash
+		tar -xf dist.tar
+		```
 	
 	* 没有问题后可以删除`dist.tar`（可选）
 	
-	```bash
-	rm dist.tar
-	```
+		```bash
+		rm dist.tar
+		```
 	
 	* 执行`pnpm`安装依赖命令，重新生成`node_modules`
 	
-	```bash
-	pnpm i --prod
-	```
+		```bash
+		pnpm i --prod
+		```
 	
-	* 启动项目，可以使用例如`pm2`和`forever`之类的进程管理，方便进行持续集成
+	* 启动项目
 	
-	```bash
-	node build/index.js
-	```
+		```bash
+		ORIGIN=https://shiropad.mea.moe \
+		NODE_ENV=production \
+		node build/index.js
+		```
+
+	* （额外）可以使用例如`pm2`和`forever`之类的进程管理，方便进行持续集成，下面是 `shiropad.mea.moe` 上的 `pm2` 配置文件 `ecosystem.config.js`
+
+		```javascript
+		module.exports = {
+			apps : [{
+				name: "shiropad",
+				script: "build/index.js",
+				cwd: "/opt/shiro-pad/",
+				env: {
+					"NODE_ENV": "production",
+					"ORIGIN": "https://shiropad.mea.moe",
+				}
+			}],
+		}
+		```
 	
+## 更新日志
+
+### ver 1.1.1
+
+**2024.06.14** 使用了单独引入highlight.js的高亮模块，减少了打包大小
