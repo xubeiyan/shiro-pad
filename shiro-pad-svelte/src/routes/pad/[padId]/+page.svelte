@@ -13,7 +13,7 @@
 
 	export let data;
 	// 语言，代码，保留时间
-	let { ulid, language, code, keepTime, expireAt } = data;
+	let { ulid, language, code, keepTime, expireAt, accessCode } = data;
 
 	// 如果url是/pad/1则开启onlyView
 	if ($page.url.pathname == '/pad/1') {
@@ -42,21 +42,20 @@
 	import hljs from 'highlight.js/lib/core';
 
 	// Import each language module you require
-	import bash from 'highlight.js/lib/languages/bash'; 
-	import c from 'highlight.js/lib/languages/c'; 
-	import cpp from 'highlight.js/lib/languages/cpp'; 
-	import java from 'highlight.js/lib/languages/java'; 
-	import markdown from 'highlight.js/lib/languages/markdown'; 
-	import go from 'highlight.js/lib/languages/go'; 
+	import bash from 'highlight.js/lib/languages/bash';
+	import c from 'highlight.js/lib/languages/c';
+	import cpp from 'highlight.js/lib/languages/cpp';
+	import java from 'highlight.js/lib/languages/java';
+	import markdown from 'highlight.js/lib/languages/markdown';
+	import go from 'highlight.js/lib/languages/go';
 	import xml from 'highlight.js/lib/languages/xml'; // for HTML
-	import yml from 'highlight.js/lib/languages/yaml'; 
-	import latex from 'highlight.js/lib/languages/latex'; 
+	import yml from 'highlight.js/lib/languages/yaml';
+	import latex from 'highlight.js/lib/languages/latex';
 	import css from 'highlight.js/lib/languages/css';
 	import json from 'highlight.js/lib/languages/json';
 	import javascript from 'highlight.js/lib/languages/javascript';
 	import typescript from 'highlight.js/lib/languages/typescript';
-	import plaintext from 'highlight.js/lib/languages/plaintext'
-
+	import plaintext from 'highlight.js/lib/languages/plaintext';
 
 	// Register each imported language module
 	hljs.registerLanguage('bash', bash);
@@ -138,6 +137,11 @@
 				<span>有效至: {expireAt}</span>
 			{/if}
 
+			{#if accessCode}
+				<span class="text-slate-400">
+					快速访问码为 {accessCode}
+				</span>
+			{/if}
 			{#if !onlyView}
 				<button type="submit" class="btn btn-sm variant-filled-primary" disabled={code == ''}>
 					<span><SaveIcon /></span>保存

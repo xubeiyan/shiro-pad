@@ -38,6 +38,7 @@ export const load = async ({ params, url }) => {
       ulid: res.ulid,
       language: res.language,
       keepTime: res.keepTime,
+      accessCode: res.accessCode,
       code: res.codeText,
       expireAt: timeFormat(res.expireAt),
     }
