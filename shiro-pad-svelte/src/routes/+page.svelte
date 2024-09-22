@@ -8,6 +8,9 @@
 			>
 				粘点东西
 			</a>
+			<a class="btn variant-outline-primary" href="/accessCode">
+				我有神秘代码
+			</a>
 			<a
 				class="btn variant-outline"
 				href="/pad/1"
