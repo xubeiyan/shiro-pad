@@ -11,15 +11,15 @@ Shiro来自于《玉响未来》的女主小伯白(Kohaku Shiro)，也是“白�
 * 克隆本仓库的`master`分支至`shiro-pad`文件夹，并进入`shiro-pad/shiro-pad-svelte`文件夹
 
 ```bash
-git clone --depth=1 https://github.com/xubeiyan/shiro-pad 
-cd shiro-pad/shiro-pad-svelte
+$ git clone --depth=1 https://github.com/xubeiyan/shiro-pad 
+$ cd shiro-pad/shiro-pad-svelte
 ```
 
 * 从`.env.example`复制，新建`.env.production`文件，并进行编辑，调整数据库地址
 
 ```bash
-cp .env.example .env.production
-vim .env.production
+$ cp .env.example .env.production
+$ vim .env.production
 ```
 
 * 使用`db/create_db.sql`生成`sqlite`类型的数据库，和上一步保持一致
@@ -27,26 +27,26 @@ vim .env.production
 	> 使用`sqlite3`命令举例，生成路径为`./db/prod.db`
 
 ```bash
-mkdir db
-sqlite3 ./db/prod.db < ./db/create_db.sql
+$ mkdir db
+$ sqlite3 ./db/prod.db < ./db/create_db.sql
 ```
 
 * 进行生产环境安装和打包，这里使用的包管理器为`pnpm`，其余类似
 
 ```bash
-pnpm i
+$ pnpm i
 
 # linux shell
-pnpm run build
+$ pnpm run build
 
 # or windows cmd
-pnpm run build
+$ pnpm run build
 ```
 
 * 上述命令会生成`bulid`文件夹，执行
 
 ```bash
-node build/index.js
+$ node build/index.js
 ```
 
 * 浏览器访问`http://yourip:yourport/`即可看到（实际使用还需参考下面的部署方法）
@@ -62,7 +62,7 @@ node build/index.js
 		> 假设当前工作目录为`shiro-pad/shiro-pad-svelte`
 
 		```bash
-		cp -r build/ package.json db/ node_modules/ /opt/shiro-pad
+		$ cp -r build/ package.json db/ node_modules/ /opt/shiro-pad
 		```
 
 	* 启动项目，可以使用例如`pm2`和`forever`之类的进程管理，方便进行持续集成
@@ -77,9 +77,9 @@ node build/index.js
 
 
 		```bash
-		ORIGIN=https://shiropad.mea.moe \
-		NODE_ENV=production \
-		node build/index.js
+		$ ORIGIN=https://shiropad.mea.moe \
+		> NODE_ENV=production \
+		> node build/index.js
 		```
 	
 2. 如果部署的位置复制大量文件不便，可以不复制`node_modules`，改由从`pnpm install`命令生成
@@ -89,7 +89,7 @@ node build/index.js
 		> 假设当前工作目录为`shiro-pad/shiro-pad-svelte`
 		
 		```bash
-		tar -cf dist.tar build/ db/ package.json pnpm-lock.yaml
+		$ tar -cf dist.tar build/ db/ package.json pnpm-lock.yaml
 		```
 	
 	* 复制生成的`dist.tar`至目标目录
@@ -98,27 +98,27 @@ node build/index.js
 		> 假设当前工作目录为`/opt/shiro-pad`
 		
 		```bash
-		tar -xf dist.tar
+		$ tar -xf dist.tar
 		```
 	
 	* 没有问题后可以删除`dist.tar`（可选）
 	
 		```bash
-		rm dist.tar
+		$ rm dist.tar
 		```
 	
 	* 执行`pnpm`安装依赖命令，重新生成`node_modules`
 	
 		```bash
-		pnpm i --prod
+		$ pnpm i --prod
 		```
 	
 	* 启动项目
 	
 		```bash
-		ORIGIN=https://shiropad.mea.moe \
-		NODE_ENV=production \
-		node build/index.js
+		$ ORIGIN=https://shiropad.mea.moe \
+		> NODE_ENV=production \
+		> node build/index.js
 		```
 
 	* （额外）可以使用例如`pm2`和`forever`之类的进程管理，方便进行持续集成，下面是 `shiropad.mea.moe` 上的 `pm2` 配置文件 `ecosystem.config.js`
@@ -139,6 +139,10 @@ node build/index.js
 	
 ## 更新日志
 
+### ver 1.2.0
+
+**2024.09.22** 增加了通过神秘代码访问粘贴内容
+
 ### ver 1.1.1
 
-**2024.06.14** 使用了单独引入highlight.js的高亮模块，减少了打包大小
+**2024.06.14** 使用了单独引入 `highlight.js` 的高亮模块，减少了打包大小
